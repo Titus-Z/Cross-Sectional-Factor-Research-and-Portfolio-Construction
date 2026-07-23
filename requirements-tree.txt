@@ -1,0 +1,6 @@
+-r requirements.txt
+
+# Optional nonlinear model baselines. The canonical public Ridge/Lasso run does
+# not require these packages.
+lightgbm>=4.0.0
+xgboost>=2.0.0

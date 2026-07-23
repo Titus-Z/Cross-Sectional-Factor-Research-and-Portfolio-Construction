@@ -1,0 +1,75 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.cache/
+.mplconfig/
+.pytest_cache/
+.venv/
+*.egg-info/
+.vscode/
+.idea/
+.env
+.env.*
+!.env.example
+
+# Large local data / model / output artifacts
+data/
+data/*.csv
+data/fmp/
+data/yfinance/*_daily_parquet/
+models/
+outputs/
+
+# Invalidated local evidence from the superseded pipeline.  The clean public
+# rerun is exported to results/public/us300_release_v1 instead.
+results/public/us300_v013/
+
+# Local backtest artifacts
+backtest_from_outputs/
+
+# Local factor-mining run artifacts
+factor_mining_workspace/auto_mining_outputs/
+factor_mining_workspace/*outputs*/
+
+# Internal factor-mining notes and historical result narratives are kept local.
+factor_mining_workspace/AUTO_FACTOR_MINING_SUMMARY.md
+factor_mining_workspace/CURRENT_FACTOR_DIRECTION.md
+factor_mining_workspace/GENERATIVE_FACTOR_MINING_SUMMARY.md
+factor_mining_workspace/NEW_AI_PROMPT.md
+factor_mining_workspace/RECENT_FACTOR_MINING_PAPERS.md
+factor_mining_workspace/RL_GENERATIVE_FACTOR_RESULTS_SUMMARY.md
+
+# Local app / UI prototypes are intentionally not part of this GitHub export.
+desktop_tauri/
+
+# Desktop packaging artifacts
+.venv_desktop/
+build/
+dist/
+*.spec
+desktop_tauri/node_modules/
+desktop_tauri/dist/
+desktop_tauri/src-tauri/target/
+desktop_tauri/demo/
+desktop_tauri/outputs/
+desktop_tauri/release/
+
+# Legacy app surface
+web_app/
+
+# Local product/app review notes are not part of the research-core export.
+docs/learning/
+docs/interview/
+docs/presentation/
+docs/overview/
+docs/overview/DESKTOP_*.md
+docs/overview/MYQUANT_APP_*.md
+docs/overview/MYQUANT_CLEANUP_*.md
+docs/overview/MYQUANT_DESKTOP_*.md
+docs/overview/MYQUANT_LAB_BOARD_*.md
+docs/overview/MYQUANT_STACKQUANT_*.md
+docs/overview/PRODUCT_ACCEPTANCE_MANUAL_STEPS_*.md
+docs/overview/UI_SCREEN_CONTRACTS.md
+docs/overview/WEB_APP_CONTENT_AUDIT.md
+docs/overview/ui_change_request_assets/
+docs/presentation/myquant_delivery_20260608/

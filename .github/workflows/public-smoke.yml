@@ -1,0 +1,33 @@
+name: public-smoke
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  static-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install core dependencies
+        run: python -m pip install -r requirements.txt -c requirements-lock.txt
+      - name: Compile public entry points
+        run: python -m compileall -q .
+      - name: Check public repository hygiene
+        run: python scripts/check_public_repository.py
+      - name: Check temporal-boundary invariants
+        run: python -m unittest tests.test_temporal_boundaries
+      - name: Verify CLI contracts
+        run: |
+          python main.py --help
+          python main_experiments.py --help
+          python main_ablation.py --help
+          python main_factor_diagnostics.py --help
+          python main_mined_factor_strict_experiment.py --help
+          python main_long_short_backtest.py --help
+          python evaluate.py --help
+          python scripts/export_public_evidence.py --help
