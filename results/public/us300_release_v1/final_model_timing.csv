@@ -1,0 +1,3 @@
+model,runtime_seconds,ensemble_weight,selected_feature_count
+ridge,0.09496549994219095,0.5207152089575295,50
+lasso,0.4708085840102285,0.47928479104247046,50

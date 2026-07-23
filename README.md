@@ -2,7 +2,11 @@
 
 MyQuant is a leakage-aware research framework for cross-sectional U.S. equity return prediction, formulaic alpha research, walk-forward validation, and cost-aware portfolio diagnostics.
 
-> **Pre-release evidence boundary:** the intended public baseline is **US300 with a forward 10-trading-day return target**. Public metrics are withheld until a clean rerun verifies missing-OHLCV preservation, the 10-day label purge, one adjusted-price policy, removal of a historical synthetic market-cap proxy, the standard Sharpe formula, signal-horizon endpoint alignment, and full entry/liquidation transaction-cost accounting. The repository also contains a scalable US3000 data pipeline, but no formal US3000 benchmark result is claimed here.
+> **Research release candidate:** the public baseline is **US300 with a forward
+> 10-trading-day return target**. A clean source commit produced the published
+> walk-forward, final OOS, portfolio, provenance, and threshold-event audit
+> artifacts. The repository also contains a scalable US3000 data pipeline, but
+> no formal US3000 benchmark result is claimed here.
 
 ## Research Question
 
@@ -58,20 +62,33 @@ The canonical price convention is `vendor_adjusted`: labels and portfolio close 
 
 The current loader does not fabricate market capitalization from price and volume, so the clean run excludes all-empty market-cap and valuation columns. Its exact family counts come only from the run manifest. Fundamental features are not part of this canonical experiment.
 
-### Current Evidence Status
+### Current Research Evidence
 
-No predictive or portfolio performance number is claimed in this README before the
-canonical experiment is rerun with the current code and passes the public release
-gate. Superseded artifacts remain available only in the local research worktree and
-are excluded from the public Git tree. Those historical values used obsolete
-label-boundary, missing-data, price, Sharpe, holding-clock, and transaction-cost
-accounting rules.
+The canonical release package covers 244 final-OOS trading dates from 2025-06-02
+through 2026-05-20:
 
-The clean release package will report every walk-forward fold, untouched final OOS
-metrics, the complete 64-cell portfolio grid, full sleeve entry/liquidation costs,
-skipped incomplete return paths, anomaly attribution, data fingerprints, source
-commit, dirty-worktree status, and exact runtime. Until then, citing a historical IC,
-return, Sharpe, or drawdown as current MyQuant performance would be inaccurate.
+| Layer | Metric | Result |
+|---|---|---:|
+| Final OOS ranking | Mean daily Pearson IC | 0.1126 |
+| Final OOS ranking | Mean daily Rank IC | 0.0610 |
+| Final OOS point error | RMSE / MAE | 0.0721 / 0.0484 |
+| Conservative portfolio slice | Top20 / Bottom20, sector-neutral, 10-day signal horizon, 20 bps | 38.29% cumulative |
+| Conservative portfolio slice | Sharpe / maximum drawdown | 1.97 / -8.09% |
+| Conservative portfolio slice | Rebalances | 25 |
+| Equal-weight market context | Long-only universe return | 32.72% |
+| Non-risk-matched comparison | Relative wealth versus equal-weight long-only | 4.19% |
+
+The portfolio charges 20 bps per traded notional. With gross exposure near 2 and
+separate entry and liquidation accounting, average cost is 80 bps of portfolio
+capital per rebalance. Borrow cost is set to zero. The simulation does not model
+realized spread, slippage, nonlinear impact, borrow availability, recalls, financing,
+or taxes. The equal-weight comparison is market context and is not risk-matched
+alpha.
+
+The full [evidence package](results/public/us300_release_v1/README.md) publishes
+every fold, the 64-cell portfolio grid, anomaly attribution, source and data
+fingerprints, and a [manual review](results/public/us300_release_v1/MANUAL_DATA_REVIEW.md)
+of all release-threshold price moves. Superseded local metrics remain excluded.
 
 ## Feature Research
 
@@ -230,7 +247,10 @@ Raw data, cached feature matrices, trained models, full predictions, and explora
 - [Research limitations](docs/LIMITATIONS.md)
 - [Reproducibility guide](docs/REPRODUCIBILITY.md)
 
-The clean public evidence directory is currently a placeholder. Superseded local artifacts are excluded from the public tree because their original Git commit was not recorded and they predate the repaired loader, purge, price, Sharpe, and portfolio-accounting rules. The canonical command must be rerun before a formal tagged release.
+The public evidence directory contains the canonical research release candidate.
+Superseded local artifacts remain excluded because their original Git commit was
+not recorded and they predate the repaired loader, purge, price, Sharpe, and
+portfolio-accounting rules.
 
 ## Data and License
 

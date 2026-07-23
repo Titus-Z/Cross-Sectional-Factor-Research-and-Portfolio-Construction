@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment_id": "us300_release_v1",
+  "review_date": "2026-07-23",
+  "status": "reviewed_no_unresolved_corporate_action_blockers",
+  "scope": "All vendor-adjusted absolute daily returns above 50 percent, plus every adjustment-change event with a residual adjusted return above 20 percent.",
+  "data_sha256": "84fdd8fc5a3836303b6bffd87f2edc11eb00bebe0aea26d40b015f60f97281b3",
+  "corporate_action_audit_sha256": "b07cfceee765436d6a241bc8f8486fd3fe99099474ef5048b6c9aba0338c06d3",
+  "reviewed_event_count": 3,
+  "unresolved_event_count": 0,
+  "events": [
+    {
+      "instrument_id": "TGT",
+      "date": "2024-11-20",
+      "adjusted_daily_return": -0.21410109250081566,
+      "trigger": "residual_adjusted_return_gt_20pct_on_adjustment_change_date",
+      "classification": "reviewed_genuine_market_move",
+      "evidence": "Target reported third-quarter results and reduced full-year EPS guidance on the same date.",
+      "source": "https://corporate.target.com/press/release/2024/11/target-corporation-reports-third-quarter-earnings"
+    },
+    {
+      "instrument_id": "CVNA",
+      "date": "2023-06-08",
+      "adjusted_daily_return": 0.5602059915226203,
+      "trigger": "adjusted_abs_daily_return_gt_50pct",
+      "classification": "reviewed_genuine_market_move",
+      "evidence": "Carvana filed a same-day Form 8-K and improved its second-quarter outlook.",
+      "source": "https://www.sec.gov/Archives/edgar/data/1690820/000169082023000195/cvna-20230608.htm"
+    },
+    {
+      "instrument_id": "SATS",
+      "date": "2025-08-26",
+      "adjusted_daily_return": 0.7024765852638799,
+      "trigger": "adjusted_abs_daily_return_gt_50pct",
+      "classification": "reviewed_genuine_market_move",
+      "evidence": "EchoStar announced an approximately 23 billion dollar spectrum sale to AT&T on the same date.",
+      "source": "https://ir.echostar.com/node/32621"
+    }
+  ],
+  "limitations": [
+    "This review classifies the release-threshold events in the canonical US300 file; it does not prove that Yahoo Finance contains every corporate action.",
+    "The project still lacks an institutional point-in-time security master and independently reconciled delisting returns.",
+    "Vendor-adjusted history may be revised after the recorded download."
+  ]
+}

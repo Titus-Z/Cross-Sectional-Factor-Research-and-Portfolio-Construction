@@ -25,7 +25,17 @@ show whether a vendor adjustment removed a split-like raw jump and can flag a
 large residual adjusted return. It cannot infer authoritative event types or
 prove that the vendor history contains every action.
 
-The current canonical code uses `vendor_adjusted` prices consistently in labels, features, and portfolio close returns. Superseded local reference artifacts predate this unified policy, so they remain outside the public result tree. Vendor-adjusted history can also be revised retrospectively, which limits exact bit-for-bit reproduction over time.
+The current canonical code uses `vendor_adjusted` prices consistently in labels,
+features, and portfolio close returns. Superseded local reference artifacts
+predate this unified policy, so they remain outside the public result tree.
+Vendor-adjusted history can also be revised retrospectively, which limits exact
+bit-for-bit reproduction over time.
+
+The public package manually reviews all adjusted absolute daily returns above 50%
+and all adjustment-change events with residual adjusted returns above 20%. TGT,
+CVNA, and SATS were matched to same-day company or SEC disclosures. This threshold
+review reduces one release risk; it cannot prove that the vendor contains every
+split, reverse split, merger, symbol change, or delisting event.
 
 Back-adjusted vendors may apply a later split factor to earlier absolute prices.
 That makes absolute historical price levels unsafe even when the model never sees
@@ -85,7 +95,12 @@ The portfolio simulator applies proportional transaction cost to capital-scaled 
 - hard-to-borrow exclusions;
 - margin, financing, and locate fees.
 
-The saved pre-release portfolio rows used an execution-date holding clock and ended one trading day after the `y_10d` label endpoint. They are invalid as release evidence. Canonical reruns use `holding_clock=signal_horizon`: signal at `t`, close execution proxy at `t+1`, endpoint at `t+10`, and nine executable daily returns. The old `execution_horizon` definition remains available only for a separately labelled sensitivity comparison.
+Superseded pre-release portfolio rows used an execution-date holding clock and
+ended one trading day after the `y_10d` label endpoint. They remain invalid as
+release evidence. The canonical package uses `holding_clock=signal_horizon`:
+signal at `t`, close execution proxy at `t+1`, endpoint at `t+10`, and nine
+executable daily returns. The old `execution_horizon` definition remains
+available only for a separately labelled sensitivity comparison.
 
 The portfolio result is a research diagnostic, not a live performance record.
 
@@ -103,7 +118,12 @@ A superseded local artifact was produced when the pipeline could substitute a pr
 
 ### Return concentration
 
-A high cumulative return or Sharpe can be driven by a few dates or a few names. The current backtest writes `extreme_return_days.csv`, `position_daily_contributions.csv`, and `instrument_return_attribution.csv`, but those files only become evidence after the clean canonical rerun. Any configuration with large selected-stock returns, concentrated absolute contribution, or sharply different first- and second-half returns requires manual review before publication.
+A high cumulative return or Sharpe can be driven by a few dates or a few names.
+The canonical package publishes `extreme_return_days.csv`,
+`position_daily_contributions.csv`, and `instrument_return_attribution.csv` for
+the four displayed 20 bps rows. Configurations with large selected-stock returns,
+concentrated absolute contribution, or sharply different first- and second-half
+returns still require caution.
 
 ### Static sector classification
 
@@ -111,17 +131,25 @@ The bundled sector map is a current static classification. Applying it to older 
 
 ## 12. Provenance Gap
 
-The superseded local evidence package was assembled from saved artifacts and did not store its exact Git commit. The loader used at that time allowed backward filling of observable fields, the saved folds did not record a target-horizon purge, training/backtest price adjustment was not governed by the current unified policy, and Sharpe used compound annualized return divided by annualized volatility. The current loader preserves missing OHLCV without forward/backward filling, the protocol purges the last 10 observations of every instrument before each `y_10d` boundary, price mode is recorded, and Sharpe now uses the standard daily mean/std formula. A fresh run must be completed before a tagged public release can claim current-code performance or full code-to-result provenance.
+The superseded local evidence package was assembled from saved artifacts and did
+not store its exact Git commit. The loader used at that time allowed backward
+filling of observable fields, the saved folds did not record a target-horizon
+purge, training/backtest price adjustment was not governed by the current unified
+policy, and Sharpe used compound annualized return divided by annualized
+volatility. The current public package was freshly generated from a recorded clean
+source commit. The loader preserves missing OHLCV, the protocol purges the final
+10 observations of every instrument before each `y_10d` boundary, price mode is
+recorded, and Sharpe uses the standard daily mean/std formula.
 
 ## 13. Practical Interpretation
 
-After the clean canonical rerun, the strongest conclusion this repository may test is:
+The strongest conclusion supported by the current canonical package is:
 
 ```text
-In a controlled US300 sample, the documented feature and linear-model pipeline
-can be evaluated for cross-sectional ranking quality across three purged
-walk-forward folds and one held-out 2026 audit.
+In a controlled static US300 sample, the documented feature and linear-model
+pipeline produced positive mean daily cross-sectional IC across three purged
+walk-forward folds and a one-year final OOS audit.
 ```
 
-Even a positive clean result would not establish a persistent, scalable,
+This positive research result does not establish a persistent, scalable, or
 executable trading strategy.

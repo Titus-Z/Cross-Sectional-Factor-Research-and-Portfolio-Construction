@@ -1,0 +1,9 @@
+stage,runtime_seconds,status
+download_market_data,7.0908572524786e-07,skipped_existing_input
+load_clean_and_configure_data,1.0189045829465613,completed
+strict_split_and_feature_engineering,45.54435575008392,refresh_written
+cross_sectional_preprocessing,53.093160709016956,refresh_written
+purged_walk_forward_validation,26.24724187492393,refresh_written
+final_train_only_feature_selection,14.41878824995365,completed
+fit_and_save_final_models,0.5669405830558389,completed
+oos_prediction_and_evaluation,0.805193749954924,completed

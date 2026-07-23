@@ -8,6 +8,7 @@ must not enter the public commit.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -76,6 +77,8 @@ REQUIRED_RELEASE_EVIDENCE_FILES = (
     "source_run_manifest.json",
     "data_quality_summary.json",
     "corporate_action_audit.csv",
+    "manual_data_review.json",
+    "MANUAL_DATA_REVIEW.md",
     "universe_coverage_audit.csv",
     "walk_forward_fold_metrics.csv",
     "walk_forward_model_summary.csv",
@@ -179,6 +182,16 @@ def git_commit_is_ancestor(root: Path, ancestor: str, descendant: str = "HEAD") 
         text=True,
     )
     return completed.returncode == 0
+
+
+def sha256_file(path: Path) -> str:
+    """Return a streaming SHA256 digest without loading a large file into memory."""
+
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def is_text_candidate(path: Path) -> bool:
@@ -327,6 +340,39 @@ def run_checks(root: Path, *, release: bool = False) -> tuple[list[str], list[st
                     )
                 if source_git.get("dirty_tracked_worktree") is not False:
                     errors.append("release evidence was generated from a dirty worktree")
+                manual_review_path = evidence_dir / "manual_data_review.json"
+                if manual_review_path.is_file():
+                    try:
+                        manual_review = json.loads(manual_review_path.read_text(encoding="utf-8"))
+                    except json.JSONDecodeError as exc:
+                        errors.append(f"manual data review is invalid JSON: {exc}")
+                    else:
+                        if manual_review.get("status") != (
+                            "reviewed_no_unresolved_corporate_action_blockers"
+                        ):
+                            errors.append(
+                                "manual data review has unresolved status: "
+                                f"{manual_review.get('status')!r}"
+                            )
+                        manifest_data_hash = str(
+                            ((manifest.get("data", {}) or {}).get("fingerprint", {}) or {}).get(
+                                "sha256"
+                            )
+                            or ""
+                        )
+                        if manual_review.get("data_sha256") != manifest_data_hash:
+                            errors.append("manual data review does not match manifest data SHA256")
+                        corporate_audit_path = evidence_dir / "corporate_action_audit.csv"
+                        if corporate_audit_path.is_file() and manual_review.get(
+                            "corporate_action_audit_sha256"
+                        ) != sha256_file(corporate_audit_path):
+                            errors.append(
+                                "manual data review does not match corporate-action audit SHA256"
+                            )
+                        if int(manual_review.get("unresolved_event_count", -1)) != 0:
+                            errors.append("manual data review still contains unresolved events")
+                        if int(manual_review.get("reviewed_event_count", 0)) < 3:
+                            errors.append("manual data review does not cover all release-threshold events")
                 public_run_names = manifest.get("public_portfolio_run_names", [])
                 if not isinstance(public_run_names, list) or not public_run_names:
                     errors.append("release evidence manifest has no public portfolio runs")

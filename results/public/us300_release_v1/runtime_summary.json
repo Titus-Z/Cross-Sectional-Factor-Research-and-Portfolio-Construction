@@ -1,0 +1,60 @@
+{
+  "total_runtime_seconds": 141.86889083392452,
+  "stage_timing": [
+    {
+      "stage": "download_market_data",
+      "runtime_seconds": 7.0908572524786e-07,
+      "status": "skipped_existing_input"
+    },
+    {
+      "stage": "load_clean_and_configure_data",
+      "runtime_seconds": 1.0189045829465613,
+      "status": "completed"
+    },
+    {
+      "stage": "strict_split_and_feature_engineering",
+      "runtime_seconds": 45.54435575008392,
+      "status": "refresh_written"
+    },
+    {
+      "stage": "cross_sectional_preprocessing",
+      "runtime_seconds": 53.093160709016956,
+      "status": "refresh_written"
+    },
+    {
+      "stage": "purged_walk_forward_validation",
+      "runtime_seconds": 26.24724187492393,
+      "status": "refresh_written"
+    },
+    {
+      "stage": "final_train_only_feature_selection",
+      "runtime_seconds": 14.41878824995365,
+      "status": "completed"
+    },
+    {
+      "stage": "fit_and_save_final_models",
+      "runtime_seconds": 0.5669405830558389,
+      "status": "completed"
+    },
+    {
+      "stage": "oos_prediction_and_evaluation",
+      "runtime_seconds": 0.805193749954924,
+      "status": "completed"
+    }
+  ],
+  "final_model_timing": [
+    {
+      "model": "ridge",
+      "runtime_seconds": 0.09496549994219095,
+      "ensemble_weight": 0.5207152089575295,
+      "selected_feature_count": 50
+    },
+    {
+      "model": "lasso",
+      "runtime_seconds": 0.4708085840102285,
+      "ensemble_weight": 0.47928479104247046,
+      "selected_feature_count": 50
+    }
+  ],
+  "interpretation": "Cache-hit and cache-miss timings are not directly comparable. Inspect each stage status before using runtime values in public claims."
+}
