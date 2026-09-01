@@ -2,4 +2,4 @@
 
 # PPO-based formula mining is optional. The core US300 research pipeline does
 # not require PyTorch, so it is kept out of the default installation.
-torch>=2.0.0
+torch>=2.13.0
