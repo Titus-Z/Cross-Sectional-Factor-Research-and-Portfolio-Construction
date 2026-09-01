@@ -1,5 +1,7 @@
 # Cross-Sectional Factor Research and Portfolio Construction
 
+[![Public smoke checks](https://github.com/Titus-Z/Cross-Sectional-Factor-Research-and-Portfolio-Construction/actions/workflows/public-smoke.yml/badge.svg)](https://github.com/Titus-Z/Cross-Sectional-Factor-Research-and-Portfolio-Construction/actions/workflows/public-smoke.yml)
+
 MyQuant is a leakage-aware research framework for cross-sectional U.S. equity return prediction, formulaic alpha research, walk-forward validation, and cost-aware portfolio diagnostics.
 
 > **Research release candidate:** the public baseline is **US300 with a forward
@@ -66,6 +68,14 @@ The current loader does not fabricate market capitalization from price and volum
 
 The canonical release package covers 244 final-OOS trading dates from 2025-06-02
 through 2026-05-20:
+
+| Walk-forward signal stability | Transaction-cost sensitivity |
+| --- | --- |
+| ![Walk-forward Pearson and rank IC across expanding validation folds](results/public/us300_release_v1/figures/walk_forward_ic.png) | ![Portfolio return and Sharpe sensitivity across transaction-cost assumptions](results/public/us300_release_v1/figures/portfolio_cost_sensitivity.png) |
+
+These figures retain the release-candidate watermark because the public package
+documents a research result with explicit data-review and execution-model limits,
+not a production trading claim.
 
 | Layer | Metric | Result |
 |---|---|---:|
